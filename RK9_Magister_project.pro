@@ -36,6 +36,7 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui \
 
 RESOURCES += \
-    shaders.grc
+    res.qrc
+
 
 

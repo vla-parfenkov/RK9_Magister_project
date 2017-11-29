@@ -1,4 +1,6 @@
+#include <QMatrix4x4>
 #include "scene.h"
+#include <cmath>
 
 Scene::Scene( QWidget *parent ) :
     QOpenGLWidget ( parent )
@@ -11,20 +13,18 @@ Scene::~Scene()
      delete m_frame;
 }
 
-void Scene::paintGL()
+void Scene::initializeGL()
 {
-    glClear( GL_COLOR_BUFFER_BIT );
-
-    QOpenGLShader vShader( QOpenGLShader::Vertex );
-    vShader.compileSourceFile( ":/Shaders/vshader.vsh" );
+    glClearColor( 1.0f, 1.0f, 1.0f, 1.0f );
 
 
-    m_program.addShader( &vShader );
+     m_program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/Shaders/vshad.vsh");
+     m_program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/Shaders/fshad.fsh");
+
     if ( !m_program.link() ) {
         qWarning( "Error: unable to link a shader program." );
         return;
     }
-
     m_vertexAttr = m_program.attributeLocation( "qt_Vertex" );
     m_colorAttr = m_program.attributeLocation( "qt_MultiTexCoord0" );
     m_matrixUniform = m_program.uniformLocation( "qt_ModelViewProjectionMatrix" );
@@ -32,17 +32,17 @@ void Scene::paintGL()
     m_frame = new Frame( &m_program, m_vertexAttr, m_colorAttr );
 }
 
-void Scene::initializeGL()
+void Scene::paintGL()
 {
-    glClearColor( 1.0f, 1.0f, 1.0f, 1.0f );
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     if ( !m_program.bind() ) {
             return;
     }
 
     QMatrix4x4 matrix;
-    matrix.ortho( -2.0f, 2.0f, -2.0f, 2.0f, 2.0f, -2.0f );
-    matrix.translate( 0.0f, 0.0f, -1.0f );
+    matrix.perspective( 45.0f * 180 / M_PI , 4.0f / 3.0f, 0.1f, 100.0f );
+    matrix.lookAt(QVector3D(4,3,0), QVector3D(0,0,0), QVector3D(0,1,0));
     m_program.setUniformValue( m_matrixUniform, matrix );
 
     m_frame->draw();

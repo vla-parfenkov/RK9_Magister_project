@@ -2,6 +2,7 @@
 #define SCENE_H
 
 #include <QOpenGLWidget>
+#include <QOpenGLShaderProgram>
 #include "frame.h"
 
 class Scene : public QOpenGLWidget

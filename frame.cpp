@@ -19,13 +19,13 @@ Frame::~Frame()
 void Frame::initFrame()
 {
    float arr[] = { 0.0f, 0.0f, 0.0f,
-                 0.1f, 0.0f, 0.0f,
-                 0.1f, 0.1f, 0.0f,
-                 0.0f, 0.1f, 0.0f,
-                 0.0f, 0.0f, 0.1f,
-                 0.1f, 0.0f, 0.1f,
-                 0.1f, 0.1f, 0.1f,
-                 0.0f, 0.1f, 0.1f
+                 1.0f, 0.0f, 0.0f,
+                 1.0f, 1.0f, 0.0f,
+                 0.0f, 1.0f, 0.0f,
+                 0.0f, 0.0f, 1.0f,
+                 1.0f, 0.0f, 1.0f,
+                 1.0f, 1.0f, 1.0f,
+                 0.0f, 1.0f, 1.0f
                };
 
    m_vertices.resize( POINT_COUNT * DIMENSION );
@@ -52,7 +52,7 @@ void Frame::draw()
     m_program->enableAttributeArray( m_vertexAttr );
     m_program->enableAttributeArray( m_colorAttr );
 
-    glDrawArrays( GL_LINES, 0, m_vertices.size() / DIMENSION );
+    glDrawArrays( GL_QUADS, 0, m_vertices.size() / DIMENSION );
 
     m_program->disableAttributeArray( m_vertexAttr );
     m_program->disableAttributeArray( m_colorAttr );
