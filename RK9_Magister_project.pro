@@ -25,9 +25,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    scene.cpp
+    scene.cpp \
+    frame.cpp \
 
 HEADERS  += mainwindow.h \
-    scene.h
+    scene.h \
+    frame.h \
 
-FORMS    += mainwindow.ui
+
+FORMS    += mainwindow.ui \
+
+RESOURCES += \
+    shaders.grc
+
+
