@@ -17,6 +17,10 @@ void Scene::initializeGL()
 {
     glClearColor( 1.0f, 1.0f, 1.0f, 1.0f );
 
+    glEnable(GL_DEPTH_TEST);
+
+    glDepthFunc(GL_LESS);
+
 
      m_program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/Shaders/vshad.vsh");
      m_program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/Shaders/fshad.fsh");
@@ -41,8 +45,10 @@ void Scene::paintGL()
     }
 
     QMatrix4x4 matrix;
-    matrix.perspective( 45.0f * 180 / M_PI , 4.0f / 3.0f, 0.1f, 100.0f );
-    matrix.lookAt(QVector3D(4,3,0), QVector3D(0,0,0), QVector3D(0,1,0));
+    //matrix.perspective( 45.0f * 180 / M_PI , 4.0f / 3.0f, 0.1f, 100.0f );
+    matrix.ortho(-2.0f, 2.0f, -2.0f, 2.0f, 2.0f, -2.0f);
+   // matrix.lookAt(QVector3D(4,2,3), QVector3D(4,3,2), QVector3D(0,0,1));
+    matrix.lookAt(QVector3D(1,0,0), QVector3D(0,1,0), QVector3D(0,0,1));
     m_program.setUniformValue( m_matrixUniform, matrix );
 
     m_frame->draw();

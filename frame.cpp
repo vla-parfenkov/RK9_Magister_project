@@ -18,13 +18,42 @@ Frame::~Frame()
 
 void Frame::initFrame()
 {
-   float arr[] = { 0.0f, 0.0f, 0.0f,
+   float arr[] = {
+       //1
+                 0.0f, 0.0f, 0.0f,
+                 1.0f, 0.0f, 0.0f,
+       //2
                  1.0f, 0.0f, 0.0f,
                  1.0f, 1.0f, 0.0f,
+       //3
+                 1.0f, 1.0f, 0.0f,
                  0.0f, 1.0f, 0.0f,
+       //4
+                 0.0f, 1.0f, 0.0f,
+                 0.0f, 0.0f, 0.0f,
+       //5
                  0.0f, 0.0f, 1.0f,
                  1.0f, 0.0f, 1.0f,
+       //6
+                 1.0f, 0.0f, 1.0f,
                  1.0f, 1.0f, 1.0f,
+       //7
+                 1.0f, 1.0f, 1.0f,
+                 0.0f, 1.0f, 1.0f,
+       //8
+                 0.0f, 1.0f, 1.0f,
+                 0.0f, 0.0f, 1.0f,
+       //9
+                 0.0f, 0.0f, 0.0f,
+                 0.0f, 0.0f, 1.0f,
+       //10
+                 1.0f, 0.0f, 0.0f,
+                 1.0f, 0.0f, 1.0f,
+       //11
+                 1.0f, 1.0f, 0.0f,
+                 1.0f, 1.0f, 1.0f,
+       //12
+                 0.0f, 1.0f, 0.0f,
                  0.0f, 1.0f, 1.0f
                };
 
@@ -52,7 +81,7 @@ void Frame::draw()
     m_program->enableAttributeArray( m_vertexAttr );
     m_program->enableAttributeArray( m_colorAttr );
 
-    glDrawArrays( GL_QUADS, 0, m_vertices.size() / DIMENSION );
+    glDrawArrays( GL_LINES, 0, m_vertices.size() / DIMENSION );
 
     m_program->disableAttributeArray( m_vertexAttr );
     m_program->disableAttributeArray( m_colorAttr );

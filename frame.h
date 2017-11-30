@@ -1,7 +1,7 @@
 #ifndef FRAME_H
 #define FRAME_H
 
-#define POINT_COUNT 8
+#define POINT_COUNT 24
 #define DIMENSION 3
 
 #include <vector>
