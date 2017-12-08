@@ -1,6 +1,12 @@
 #include <QMatrix4x4>
 #include "scene.h"
 #include <cmath>
+#include <QMouseEvent>
+#include <QtMath>
+#include <QWheelEvent>
+#include <QDebug>
+
+#define DEGRE_WHEEL_MOUSE_INC 0.001f
 
 Scene::Scene( QWidget *parent ) :
     QOpenGLWidget ( parent )
@@ -33,7 +39,7 @@ void Scene::initializeGL()
     m_colorAttr = m_program.attributeLocation( "qt_MultiTexCoord0" );
     m_matrixUniform = m_program.uniformLocation( "qt_ModelViewProjectionMatrix" );
 
-    m_frame = new Frame( &m_program, m_vertexAttr, m_colorAttr );
+    m_frame = new Manipulator( &m_program, m_vertexAttr, m_colorAttr );
 }
 
 void Scene::paintGL()
@@ -45,10 +51,10 @@ void Scene::paintGL()
     }
 
     QMatrix4x4 matrix;
-    //matrix.perspective( 45.0f * 180 / M_PI , 4.0f / 3.0f, 0.1f, 100.0f );
-    matrix.ortho(-2.0f, 2.0f, -2.0f, 2.0f, 2.0f, -2.0f);
-   // matrix.lookAt(QVector3D(4,2,3), QVector3D(4,3,2), QVector3D(0,0,1));
-    matrix.lookAt(QVector3D(1,0,0), QVector3D(0,1,0), QVector3D(0,0,1));
+    matrix.lookAt(QVector3D(scale*(float)sin((float)y_rotate * M_PI / 180.0f),
+                            scale*(float)sin((float)x_rotate * M_PI / 180.0f),
+                            scale*(float)cos((float)y_rotate * M_PI / 180.0f)*(float)cos((float)x_rotate * M_PI / 180.0f)),
+                  QVector3D(0,0,0), QVector3D(0,1.0f,0));
     m_program.setUniformValue( m_matrixUniform, matrix );
 
     m_frame->draw();
@@ -59,5 +65,26 @@ void Scene::paintGL()
 void Scene::resizeGL( int w, int h )
 {
     glViewport( 0, 0, w, h );
+}
+
+void Scene::mouseMoveEvent(QMouseEvent *event)
+{
+    if (x_mouse_position == 45) {
+        x_mouse_position = event->x();
+    }
+    if (y_mouse_position == 45) {
+        y_mouse_position = event->y();
+    }
+    y_rotate = event->x() - x_mouse_position;
+    x_rotate = event->y() - y_mouse_position;
+    this->update();
+
+}
+
+void Scene::wheelEvent(QWheelEvent *event)
+{
+    float scaleInc = (float)event->delta() * DEGRE_WHEEL_MOUSE_INC;
+    scale += scaleInc;
+    this->update();
 }
 

@@ -1,6 +1,6 @@
-#include "frame.h"
+#include "manipulator.h"
 
-Frame::Frame(QOpenGLShaderProgram *program,
+Manipulator::Manipulator(QOpenGLShaderProgram *program,
 int vertexAttr, int colorAttr) :
     m_program( program ),
     m_vertexAttr( vertexAttr ),
@@ -11,12 +11,12 @@ int vertexAttr, int colorAttr) :
 }
 
 
-Frame::~Frame()
+Manipulator::~Manipulator()
 {
 
 }
 
-void Frame::initFrame()
+void Manipulator::initFrame()
 {
    float arr[] = {
        //1
@@ -65,7 +65,7 @@ void Frame::initFrame()
 
 }
 
-void Frame::initColor()
+void Manipulator::initColor()
 {
     int rgbCount = 3;
 
@@ -73,7 +73,7 @@ void Frame::initColor()
 
 }
 
-void Frame::draw()
+void Manipulator::draw()
 {
     m_program->setAttributeArray( m_vertexAttr, m_vertices.data(), DIMENSION );
     m_program->setAttributeArray( m_colorAttr, m_colors.data(), DIMENSION );

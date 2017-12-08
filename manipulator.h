@@ -1,5 +1,5 @@
-#ifndef FRAME_H
-#define FRAME_H
+#ifndef MANIPULATOR_H
+#define MANIPULATOR_H
 
 #define POINT_COUNT 24
 #define DIMENSION 3
@@ -7,12 +7,12 @@
 #include <vector>
 #include<QOpenGLShaderProgram>
 
-class Frame
+class Manipulator
 {
 public:
-    Frame( QOpenGLShaderProgram *program,
+    Manipulator( QOpenGLShaderProgram *program,
           int vertexAttr, int colorAttr );
-    ~Frame();
+    ~Manipulator();
 
     void draw();
 
@@ -28,4 +28,4 @@ private:
     int m_colorAttr;
 };
 
-#endif // FRAME_H
+#endif // MANIPULATOR_H

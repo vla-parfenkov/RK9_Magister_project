@@ -3,7 +3,7 @@
 
 #include <QOpenGLWidget>
 #include <QOpenGLShaderProgram>
-#include "frame.h"
+#include "manipulator.h"
 
 class Scene : public QOpenGLWidget
 {
@@ -15,12 +15,24 @@ public:
     void paintGL();
     void resizeGL( int w, int h );
 
-    Frame *m_frame;
+    Manipulator *m_frame;
     QOpenGLShaderProgram m_program;
+
+
 
     int m_vertexAttr;
     int m_colorAttr;
     int m_matrixUniform;
+
+    int x_mouse_position = 0;
+    int y_mouse_position = 0;
+    int y_rotate = 45;
+    int x_rotate = 45;
+    float scale = 1.0f;
+
+protected:
+    virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void wheelEvent(QWheelEvent *event);
 
 };
 
