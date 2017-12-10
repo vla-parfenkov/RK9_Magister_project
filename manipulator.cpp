@@ -1,6 +1,10 @@
 #include "manipulator.h"
 #include <QQuaternion>
 
+#define SLIDEBLOCK_COUNT 6
+#define CRANK_COUNT 6
+
+
 Manipulator::Manipulator(QOpenGLShaderProgram *program,
 int vertexAttr, int colorAttr) :
     m_program( program ),
@@ -16,6 +20,7 @@ int vertexAttr, int colorAttr) :
 Manipulator::~Manipulator()
 {
     delete(frame);
+    delete(outputBlock);
 }
 
 void Manipulator::initFrame()
@@ -34,26 +39,22 @@ void Manipulator::initColor()
 void Manipulator::initElement()
 {
     frame = new Frame();
-    slideBlockX1 = new SlideBlock(AXIS_X, 0.1f);
-    slideBlockX2 = new SlideBlock(AXIS_X, 0.3f);
-    slideBlockY1 = new SlideBlock(AXIS_Y, 0.1f);
-    slideBlockY2 = new SlideBlock(AXIS_Y, 0.3f);
-    slideBlockZ1 = new SlideBlock(AXIS_Z, 0.1f);
-    slideBlockZ2 = new SlideBlock(AXIS_Z, 0.3f);
-    crankAX1 = new CrankTypeA();
-    crankAX2 = new CrankTypeA();
-    crankAY1 = new CrankTypeA();
-    crankAY2 = new CrankTypeA();
-    crankAZ1 = new CrankTypeA();
-    crankAZ2 = new CrankTypeA();
-    crankBX1 = new CrankTypeB();
-    crankBX2 = new CrankTypeB();
-    crankBY1 = new CrankTypeB();
-    crankBY2 = new CrankTypeB();
-    crankBZ1 = new CrankTypeB();
-    crankBZ2 = new CrankTypeB();
+    slideBlocks.resize(SLIDEBLOCK_COUNT);
+    cranksA.resize(CRANK_COUNT);
+    cranksB.resize(CRANK_COUNT);
+    slideBlocks.at(0) = new SlideBlock(AXIS_X, 0.1f);
+    slideBlocks.at(1) = new SlideBlock(AXIS_X, 0.3f);
+    slideBlocks.at(2) = new SlideBlock(AXIS_Y, 0.1f);
+    slideBlocks.at(3) = new SlideBlock(AXIS_Y, 0.3f);
+    slideBlocks.at(4) = new SlideBlock(AXIS_Z, 0.1f);
+    slideBlocks.at(5) = new SlideBlock(AXIS_Z, 0.3f);
     outputBlock = new OutputBlock(QVector3D(0.5f, 0.5f, 0.5f),
                                   QQuaternion().fromEulerAngles(0.0f, 0.0f, 0.0f));
+    for (int i = 0; i < CRANK_COUNT; i++) {
+            cranksA.at(i) = new CrankTypeA();
+            cranksB.at(i) = new CrankTypeB();
+            outputBlock->consolidateCrank(i + 1, cranksB.at(i));
+    }
 
 }
 

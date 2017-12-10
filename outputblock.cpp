@@ -9,7 +9,28 @@ OutputBlock::OutputBlock(QVector3D position,
 {
     this->position = position;
     this->anglePosition = anglePosition;
+    compounds.resize(COMPOUND_COUNT);
     compoundPositionInit();
+}
+
+void OutputBlock::consolidateCrank(int compoundNumber, CrankTypeB *compound)
+{
+    compounds.at(compoundNumber - 1) = compound;
+    QObject::connect(this, SIGNAL(consolidateComplited(OutputBlock*)),
+                        compound, SLOT(somethingBlockConsolidate(OutputBlock*)));
+
+    emit consolidateComplited(this);
+}
+
+QVector3D OutputBlock::getcompoundPosition(CrankTypeB *compound)
+{
+    for (int i = 0; i < COMPOUND_COUNT; i++) {
+        if(compounds.at(i) == compound)
+        {
+            return compoundPosition[0];
+        }
+    }
+    throw std::invalid_argument("Crank isn't consolidate");
 }
 
 void OutputBlock::compoundPositionInit()
@@ -24,4 +45,5 @@ void OutputBlock::compoundPositionInit()
     for (int i = 0; i < COMPOUND_COUNT; i++) {
         compoundPosition[i] =  anglePosition.rotatedVector(compoundPosition[i]);
     }
+
 }

@@ -35,24 +35,9 @@ private:
     int m_colorAttr;
 
     Frame *frame;
-    SlideBlock *slideBlockX1;
-    SlideBlock *slideBlockX2;
-    SlideBlock *slideBlockY1;
-    SlideBlock *slideBlockY2;
-    SlideBlock *slideBlockZ1;
-    SlideBlock *slideBlockZ2;
-    CrankTypeA *crankAX1;
-    CrankTypeB *crankBX1;
-    CrankTypeA *crankAX2;
-    CrankTypeB *crankBX2;
-    CrankTypeA *crankAY1;
-    CrankTypeB *crankBY1;
-    CrankTypeA *crankAY2;
-    CrankTypeB *crankBY2;
-    CrankTypeA *crankAZ1;
-    CrankTypeB *crankBZ1;
-    CrankTypeA *crankAZ2;
-    CrankTypeB *crankBZ2;
+    std::vector<SlideBlock*> slideBlocks;
+    std::vector<CrankTypeA*> cranksA;
+    std::vector<CrankTypeB*> cranksB;
     OutputBlock *outputBlock;
 };
 

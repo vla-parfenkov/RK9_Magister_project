@@ -2,10 +2,12 @@
 #define OUTPUTBLOCK_H
 
 #include <QObject>
-#include <crank.h>
+#include <cranktypeb.h>
 #include <QVector3D>
 #include <vector>
 #include <QQuaternion>
+
+class CrankTypeB;
 
 class OutputBlock : public QObject
 {
@@ -13,19 +15,16 @@ class OutputBlock : public QObject
 public:
     explicit OutputBlock(QVector3D position, QQuaternion anglePosition,
                          QObject *parent = 0);
+    void consolidateCrank(int compoundNumber, CrankTypeB *compound);
+    QVector3D getcompoundPosition(CrankTypeB *compound);
 private:
     QVector3D position;
     QQuaternion anglePosition;
-    Crank *compoundX1;
-    Crank *compoundX2;
-    Crank *compoundY1;
-    Crank *compoundY2;
-    Crank *compoundZ1;
-    Crank *compoundZ2;
+    std::vector<CrankTypeB*> compounds;
     std::vector<QVector3D> compoundPosition;
     void compoundPositionInit();
 signals:
-
+    void consolidateComplited(OutputBlock*);
 public slots:
 };
 
