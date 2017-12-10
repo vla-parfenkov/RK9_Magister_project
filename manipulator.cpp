@@ -1,4 +1,5 @@
 #include "manipulator.h"
+#include <QQuaternion>
 
 Manipulator::Manipulator(QOpenGLShaderProgram *program,
 int vertexAttr, int colorAttr) :
@@ -6,6 +7,7 @@ int vertexAttr, int colorAttr) :
     m_vertexAttr( vertexAttr ),
     m_colorAttr( colorAttr )
 {
+    initElement();
     initFrame();
     initColor();
 }
@@ -13,56 +15,12 @@ int vertexAttr, int colorAttr) :
 
 Manipulator::~Manipulator()
 {
-
+    delete(frame);
 }
 
 void Manipulator::initFrame()
 {
-   float arr[] = {
-       //1
-                 0.0f, 0.0f, 0.0f,
-                 1.0f, 0.0f, 0.0f,
-       //2
-                 1.0f, 0.0f, 0.0f,
-                 1.0f, 1.0f, 0.0f,
-       //3
-                 1.0f, 1.0f, 0.0f,
-                 0.0f, 1.0f, 0.0f,
-       //4
-                 0.0f, 1.0f, 0.0f,
-                 0.0f, 0.0f, 0.0f,
-       //5
-                 0.0f, 0.0f, 1.0f,
-                 1.0f, 0.0f, 1.0f,
-       //6
-                 1.0f, 0.0f, 1.0f,
-                 1.0f, 1.0f, 1.0f,
-       //7
-                 1.0f, 1.0f, 1.0f,
-                 0.0f, 1.0f, 1.0f,
-       //8
-                 0.0f, 1.0f, 1.0f,
-                 0.0f, 0.0f, 1.0f,
-       //9
-                 0.0f, 0.0f, 0.0f,
-                 0.0f, 0.0f, 1.0f,
-       //10
-                 1.0f, 0.0f, 0.0f,
-                 1.0f, 0.0f, 1.0f,
-       //11
-                 1.0f, 1.0f, 0.0f,
-                 1.0f, 1.0f, 1.0f,
-       //12
-                 0.0f, 1.0f, 0.0f,
-                 0.0f, 1.0f, 1.0f
-               };
-
-   m_vertices.resize( POINT_COUNT * DIMENSION );
-
-   for (int i = 0; i < POINT_COUNT * DIMENSION; i++) {
-       m_vertices[i] = arr[i];
-   }
-
+   m_vertices.insert(m_vertices.end(), frame->getPoints().begin(), frame->getPoints().end());
 }
 
 void Manipulator::initColor()
@@ -70,6 +28,32 @@ void Manipulator::initColor()
     int rgbCount = 3;
 
     m_colors.assign( rgbCount, 0.0f );
+
+}
+
+void Manipulator::initElement()
+{
+    frame = new Frame();
+    slideBlockX1 = new SlideBlock(AXIS_X, 0.1f);
+    slideBlockX2 = new SlideBlock(AXIS_X, 0.3f);
+    slideBlockY1 = new SlideBlock(AXIS_Y, 0.1f);
+    slideBlockY2 = new SlideBlock(AXIS_Y, 0.3f);
+    slideBlockZ1 = new SlideBlock(AXIS_Z, 0.1f);
+    slideBlockZ2 = new SlideBlock(AXIS_Z, 0.3f);
+    crankAX1 = new CrankTypeA();
+    crankAX2 = new CrankTypeA();
+    crankAY1 = new CrankTypeA();
+    crankAY2 = new CrankTypeA();
+    crankAZ1 = new CrankTypeA();
+    crankAZ2 = new CrankTypeA();
+    crankBX1 = new CrankTypeB();
+    crankBX2 = new CrankTypeB();
+    crankBY1 = new CrankTypeB();
+    crankBY2 = new CrankTypeB();
+    crankBZ1 = new CrankTypeB();
+    crankBZ2 = new CrankTypeB();
+    outputBlock = new OutputBlock(QVector3D(0.5f, 0.5f, 0.5f),
+                                  QQuaternion().fromEulerAngles(0.0f, 0.0f, 0.0f));
 
 }
 

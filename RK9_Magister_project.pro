@@ -26,11 +26,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     scene.cpp \
-    manipulator.cpp
+    manipulator.cpp \
+    frame.cpp \
+    slideblock.cpp \
+    cranktypea.cpp \
+    cranktypeb.cpp \
+    outputblock.cpp \
+    crank.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
-    manipulator.h
+    manipulator.h \
+    frame.h \
+    slideblock.h \
+    cranktypea.h \
+    cranktypeb.h \
+    outputblock.h \
+    crank.h
 
 
 FORMS    += mainwindow.ui \
