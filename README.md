@@ -1,3 +1,3 @@
-# RK9_Magister_project
+# Learning Opengl
 
-Post-processor and Simulation 6-dof parallel manipulator
+
